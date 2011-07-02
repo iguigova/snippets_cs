@@ -54,11 +54,11 @@ REM THE OFFICIAL COMPETITION TEST
 CALL "%APP%" "%D%%G1%" "%D%%G2%" 13 true 200
 PAUSE
 
-CALL FIFFConsoleTestHarness "%APP%" "%D%%X1%" "%D%%X2%" 13 true 200
-PAUSE
+REM CALL FIFFConsoleTestHarness "%APP%" "%D%%X1%" "%D%%X2%"
+REM PAUSE
 
-CALL FIFFConsoleTestHarness "%APP%" "%D%%X1%" "%D%%X3%" 13 true 200
-PAUSE
+REM CALL FIFFConsoleTestHarness "%APP%" "%D%%X1%" "%D%%X3%"
+REM PAUSE
 
-CALL FIFFConsoleTestHarness "%APP%" "%D%%X2%" "%D%%X3%" 13 true 200
-PAUSE
+REM CALL FIFFConsoleTestHarness "%APP%" "%D%%X2%" "%D%%X3%"
+REM PAUSE
