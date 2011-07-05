@@ -4,6 +4,7 @@ SET APP=C:\BLUE\Sandbox\C#\FIFFConsole\bin\Debug\FIFFConsole.exe
 
 SET D=C:\BLUE\Sandbox\C#\FIFFConsole\test\
 SET F1=This is a text.txt
+SET F1a=Copy of This is a text.txt
 SET F2=This is a simple text.txt
 SET F3=This is a complex text.txt
 SET F4=This is a simple text, right.txt
@@ -14,6 +15,7 @@ SET F8=This is a complex convoluted text.txt
 SET F9=I like ice-cream.txt
 
 SET X1=T1.xml
+SET X1a=copy of T1.xml
 SET X2=T2.xml
 SET X3=T3.xml
 
@@ -21,6 +23,15 @@ SET G1=grid1.html
 SET G2=grid2.html
 
 REM ECHO "%D%%F1%"
+
+CALL "%APP%" "%D%%F1%" "%D%%F1%"
+PAUSE
+
+CALL "%APP%" "%D%%F1%" "%D%%F1a%"
+PAUSE
+
+CALL "%APP%" "%D%%X1%" "%D%%X1a%"
+PAUSE
 
 CALL FIFFConsoleTestHarness "%APP%" "%D%%F1%" "%D%%F2%"
 REM CALL FIFFConsoleTestHarness "%APP%" "%D%%F2%" "%D%%F1%"
