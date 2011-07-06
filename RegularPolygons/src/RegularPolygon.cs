@@ -5,91 +5,73 @@ using System.Text;
 
 namespace RegularPolygons
 {
-    class RegularPolygonBroker
-    {
-        RegularPolygon polygon = null;
-
-        public RegularPolygonBroker(string polygon_type, double polygon_side)
-        {
-            switch (polygon_type)
-            {
-                case "circle": polygon = new Circle(polygon_type, polygon_side); break;
-                default: polygon = new RegularPolygon(polygon_type, polygon_side); break;
-            }
-        }
-
-        public override string ToString()
-        {
-            return (polygon != null) ? (polygon).ToString() : string.Empty;
-        }
-    }
-
     class RegularPolygon
     {
-        private const int undefined = -1;
-        private const string undefinedstr = "Undefined";
+        private string[] regularPolygonTypes = { 
+            "circle", 
+            "undefined", 
+            "undefined",
+            "triangle", 
+            "square", 
+            "pentagon"
+        };
 
-        private int number_of_sides = undefined;
-        private string type = undefinedstr;
-        private double side = undefined;
+        protected int number_of_sides;
+        protected string type;
+        protected double side;
 
-        public RegularPolygon(string polygon_type, double polygon_side)
+        protected string desc = "A {0} with {1} {2:0.##} u has a perimeter of {3:0.##} u and an area of {4:0.##} u^2";
+
+        public RegularPolygon(string type, double side)
         {
-            type = polygon_type;
-            side = polygon_side;
-
-            switch (type)
-            {
-                case "triangle": number_of_sides = 3; break;
-                case "square": number_of_sides = 4; break;
-                case "pentgon": number_of_sides = 5; break;
-            }
+            this.type = type.ToLower();
+            this.side = side;
+            this.number_of_sides = Array.IndexOf(regularPolygonTypes, this.type);
         }
 
-        public string Type
+        public virtual string GetDescription()
         {
-            get { return type; }
+            return string.Format(desc, type, "side length", side, CalcPerimeter(), CalcArea());
         }
 
-        public double Side
-        {
-            get { return side; }
-        }
-
-        public int Number_Of_Sides
-        {
-            get { return number_of_sides; }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("A {0} with side length {1} u has a perimeter of {2} u and an area of {3} u^2", type, side, calcPerimeter(), calcArea());
-        }
-
-        public virtual double calcArea()
+        public virtual double CalcArea()
         {
             // http://www.mathwords.com/a/area_regular_polygon.htm
-            return (0.25)*number_of_sides*Math.Pow(side, 2)*(Math.Cos(180/number_of_sides)/Math.Sin(180/number_of_sides));
+            //return (0.25)*number_of_sides*Math.Pow(side, 2)*(Math.Cos(180/number_of_sides)/Math.Sin(180/number_of_sides));
+            return Math.Max(0, (0.25) * number_of_sides * Math.Pow(side, 2) * (1 / Math.Tan(Math.PI / number_of_sides)));
         }
 
-        public virtual double calcPerimeter()
+        public virtual double CalcPerimeter()
         {
-            return (number_of_sides * side);
+            return Math.Max(0, (number_of_sides * side));
         }
     }
 
+    // Alternatively, Circle does not extend RegularPolygon
+    // but both of them implement IAreable interface:
+    // requiring CalcArea, CalcPerimeter, and GetDescription.
+    // The use of interface is more often the preferred approach
+    // as it allows for decoupled implementations and better 
+    // extensibility. However, in this case, since we do not 
+    // expect there to be many combinations of shapes 
+    // that need to be "described", the less coding is chosen.
     class Circle: RegularPolygon
     {
         public Circle(string polygon_type, double polygon_size) : base(polygon_type, polygon_size) { }
 
-        public override double calcArea()
+        public override string GetDescription()
         {
-            return Math.PI*Math.Pow(Side, 2);
+            return string.Format(desc, type, "radius", side, CalcPerimeter(), CalcArea());
         }
 
-        public override double calcPerimeter()
+        public override double CalcArea()
         {
-            return 2*Math.PI*Side;
+            return Math.Max(0, Math.PI*Math.Pow(side, 2));
+        }
+
+        public override double CalcPerimeter()
+        {
+            return Math.Max(0, 2*Math.PI*side);
         }     
     }
 }
