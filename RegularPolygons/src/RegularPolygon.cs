@@ -5,8 +5,23 @@ using System.Text;
 
 namespace RegularPolygons
 {
-    class RegularPolygon
+    // The use of interface is more often the preferred approach
+    // as it allows for decoupled implementations and better 
+    // extensibility. 
+    // In this case, it will allow for more shapes (incl. irregular ones) 
+    // to be "described" as having area and perimeter. 
+    interface IAreable
     {
+        string GetDescription();
+        double CalcArea();
+        double CalcPerimeter();
+    }
+
+    class RegularPolygon: IAreable
+    {
+        // Regular Polygon type lookup table - 
+        // the index of the type corresponds to the shape's
+        // number of sides. 
         private string[] regularPolygonTypes = { 
             "circle", 
             "undefined", 
@@ -48,13 +63,10 @@ namespace RegularPolygons
     }
 
     // Alternatively, Circle does not extend RegularPolygon
-    // but both of them implement IAreable interface:
-    // requiring CalcArea, CalcPerimeter, and GetDescription.
-    // The use of interface is more often the preferred approach
-    // as it allows for decoupled implementations and better 
-    // extensibility. However, in this case, since we do not 
-    // expect there to be many combinations of shapes 
-    // that need to be "described", the less coding is chosen.
+    // but only implements IAreable interface; independetly.
+    // However, in this case, since we do not expect more features 
+    // to be added to it later, the "less coding" approach is chosen.
+    // One can argue that a Circle is a regular shape with no sides...
     class Circle: RegularPolygon
     {
         public Circle(string polygon_type, double polygon_size) : base(polygon_type, polygon_size) { }
