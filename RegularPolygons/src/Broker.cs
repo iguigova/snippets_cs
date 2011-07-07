@@ -25,7 +25,7 @@ namespace RegularPolygons
                         string[] tokens;
                         string polygon_type;
                         double polygon_size;
-                        RegularPolygon polygon;
+                        IAreable polygon;
 
                         while ((inputline = inputfile.ReadLine()) != null)
                         {
@@ -34,8 +34,8 @@ namespace RegularPolygons
                             polygon_size = Convert.ToDouble(tokens[1]);
 
                             try
-                            {                                
-                                polygon = (RegularPolygon)System.Activator.CreateInstance(Type.GetType("RegularPolygons." + polygon_type), new object[] { polygon_type, polygon_size });
+                            {
+                                polygon = (IAreable)System.Activator.CreateInstance(Type.GetType("RegularPolygons." + polygon_type), new object[] { polygon_type, polygon_size });
                             }
                             catch
                             {
